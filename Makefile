@@ -16,10 +16,10 @@ DUKTAPE ?= 0
 QUICKJS ?= 1
 LUAJIT ?= 1
 PYTHON ?= 0
-SUPERCOLLIDER ?= 1
+SUPERCOLLIDER ?= 0
 VULT ?= 1
 LIBPD ?= 1
-FAUST ?= 1
+FAUST ?= 0
 
 # Vult depends on both LuaJIT and QuickJS
 ifeq ($(VULT), 1)
@@ -52,7 +52,7 @@ ifdef ARCH_WIN
 	mkdir -p dep/lib dep/include
 	cd efsw && cp lib/efsw-static-release.lib $(DEP_PATH)/lib/
 else
-	cd efsw && $(MAKE) -C make/* config=release efsw-static-lib
+	cd efsw && $(MAKE) -C make/* config=release_arm64 efsw-static-lib
 	mkdir -p dep/lib dep/include
 	cd efsw && cp lib/libefsw-static-release.a $(DEP_PATH)/lib/
 endif
@@ -240,8 +240,8 @@ ifdef ARCH_WIN
 endif
 
 $(libpd):
-	cd dep && git clone "https://github.com/libpd/libpd.git" --recursive
-	cd dep/libpd && git checkout e3980d2fe45ef9eaaec1d45e4d68637eaf76a8b1
+	cd dep && git clone "https://github.com/libpd/libpd.git" --recursive || true
+#	cd dep/libpd && git checkout e3980d2fe45ef9eaaec1d45e4d68637eaf76a8b1
 
 ifdef ARCH_MAC
 	# libpd's Makefile is handmade, and it doesn't honor CFLAGS and LDFLAGS environments.
